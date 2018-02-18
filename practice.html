@@ -11,12 +11,23 @@
 <script src="http://backbonejs.org/backbone-min.js"></script>
 <script>
 // Your code goes here
-  let Person = new Backbone.Model({name: 'Jeremy'})
-Person.validate = attrs => !attrs.name ? 'I need your name!' : true
-Person.set({name: 'Samuel'})
-console.log(Person.get('name'))
-Person.unset('name', {validate: true})
-console.log(Person.get('name'))
+  let Todo = Backbone.Model.extend({
+    defaults: {
+      completed: false
+    },
+    validate (attributes) {
+      if (attributes.title === undefined) return 'Remember to set a title for your todo.'
+    },
+    initialize () {
+      console.log('This model has been initialized.')
+      this.on('invalid', (model, error) => {
+        console.log(error)
+      })
+    }
+  })
+let myTodo = new Todo()
+myTodo.set('completed', true, {validate: true})
+console.log('completed: ' + myTodo.get('completed'))
 </script>
 </body>
 </html>
