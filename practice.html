@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://underscorejs.org/underscore-min.js"></script>
+<script src="http://backbonejs.org/backbone-min.js"></script>
+<script>
+  // Your code goes here
+let Todo = Backbone.Model.extend({
+  defaults: {
+    title: '',
+    completed: false
+  },
+  initialize () {
+    console.log('This model has been initialized')
+  }
+})
+let todo1 = new Todo({})
+console.log(JSON.stringify(todo1))
+let todo2 = new Todo({
+  title: 'Check the attributes of model instances in the console',
+  completed: true
+})
+console.log(JSON.stringify(todo2))
+</script>
+</body>
+</html>
