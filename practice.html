@@ -22,6 +22,7 @@ let Todo = Backbone.Model.extend({
 })
 let todo1 = new Todo({})
 console.log(JSON.stringify(todo1))
+console.log(todo1.get('title'))
 let todo2 = new Todo({
   title: 'Check the attributes of model instances in the console',
   completed: true
