@@ -10,31 +10,13 @@
 <script src="http://underscorejs.org/underscore-min.js"></script>
 <script src="http://backbonejs.org/backbone-min.js"></script>
 <script>
-  // Your code goes here
-let Todo = Backbone.Model.extend({
-  defaults: {
-    title: '',
-    completed: false
-  },
-  initialize () {
-    console.log('This model has been initialized')
-  }
-})
-let todo1 = new Todo({})
-let todo1Attributes = todo1.toJSON()
-console.log(JSON.stringify(todo1))
-console.log(todo1.get('title'))
-console.log(todo1Attributes)
-let todo2 = new Todo({
-  title: 'Check the attributes of model instances in the console',
-  completed: true
-})
-console.log(JSON.stringify(todo2))
-todo2.set({
-  title: 'Attribute set through setter',
-  completed: false
-})
-console.log(todo2.toJSON())
+// Your code goes here
+  let Person = new Backbone.Model()
+Person.on('change:name', () => console.log('Name changed'))
+Person.set({name: 'Andrew'})
+Person.set({name: 'Jeremy'}, {silent: true})
+console.log(Person.hasChanged('name'))
+console.log(Person.hasChanged(null))
 </script>
 </body>
 </html>
