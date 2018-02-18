@@ -11,29 +11,12 @@
 <script src="http://backbonejs.org/backbone-min.js"></script>
 <script>
 // Your code goes here
-  let Todo = Backbone.Model.extend({
-    defaults: {
-      title: '',
-      completed: false
-    },
-    initialize () {
-      console.log('This model has been initialized')
-      this.on('change:title', () => console.log('- Title value for this model has changed', this))
-    }
-  })
-let myTodo = new Todo ()
-myTodo.set('title', 'The listener whenever an attribute value changes.')
-console.log('Title has changed: ' + myTodo.get('title'))
-
-myTodo.set('completed', true)
-console.log('Completed has changed: ' + myTodo.get('completed'))
-
-myTodo.set({
-  title: 'Changing more than one attribute at the same time only triggers the listener once.',
-  completed: true
-})
-
-
+  let Person = new Backbone.Model({name: 'Jeremy'})
+Person.validate = attrs => !attrs.name ? 'I need your name!' : true
+Person.set({name: 'Samuel'})
+console.log(Person.get('name'))
+Person.unset('name', {validate: true})
+console.log(Person.get('name'))
 </script>
 </body>
 </html>
