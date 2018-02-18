@@ -21,13 +21,20 @@ let Todo = Backbone.Model.extend({
   }
 })
 let todo1 = new Todo({})
+let todo1Attributes = todo1.toJSON()
 console.log(JSON.stringify(todo1))
 console.log(todo1.get('title'))
+console.log(todo1Attributes)
 let todo2 = new Todo({
   title: 'Check the attributes of model instances in the console',
   completed: true
 })
 console.log(JSON.stringify(todo2))
+todo2.set({
+  title: 'Attribute set through setter',
+  completed: false
+})
+console.log(todo2.toJSON())
 </script>
 </body>
 </html>
