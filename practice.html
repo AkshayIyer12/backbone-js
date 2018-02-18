@@ -18,7 +18,7 @@
     },
     initialize () {
       console.log('This model has been initialized')
-      this.on('change', () => console.log('- Values for this model have changed', this))
+      this.on('change:title', () => console.log('- Title value for this model has changed', this))
     }
   })
 let myTodo = new Todo ()
