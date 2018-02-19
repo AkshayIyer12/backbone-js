@@ -20,17 +20,10 @@ let TodoCollection = Backbone.Collection.extend({
   model: Todo
 })
 let TodosCollect = new TodoCollection()
-TodosCollect.on('add', todo => console.log('I should ' + todo.get('title') + '. Have I done it before? ' + (todo.get('completed') ? 'Yeah!' : 'No.')))
-TodosCollect.add(['go to Jamaica', 'go to China', 'go to India'].map((v, i) => {
-  let comp = false
-  if (i === 2) {
-   comp = true
-  }
-  return {
-    title: v,
-    completed: comp
-  }
-}))
+TodosCollect.on('change:title', model => console.log('Changed my mind! I should' + model.get('title')))
+TodosCollect.add({title: 'go to Jamaica', completed: false, id: 3})
+let myTodo = TodosCollect.get(3)
+myTodo.set('title', ' go fishing')
 </script>
 </body>
 </html>
