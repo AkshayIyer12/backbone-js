@@ -11,6 +11,8 @@ let TodoList = Backbone.Collection.extend({
   nextOrder () {
     return !this.length ? 1 : this.last().get('order') + 1
   },
-  comparator (todo) => todo.get('order')
+  comparator (todo) {
+    todo.get('order')
+  }
 })
 app.Todos = new TodoList()
