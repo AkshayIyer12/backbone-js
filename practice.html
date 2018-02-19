@@ -5,29 +5,46 @@
     <title>Title</title>
 </head>
 <body>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="http://underscorejs.org/underscore-min.js"></script>
 <script src="http://backbonejs.org/backbone-min.js"></script>
 <script>
 // Your code goes here
-  let Todo = Backbone.Model.extend({
-    defaults: {
-      completed: false
+ let TodoView = Backbone.View.extend({
+    tagname: 'li',
+    todoTpl: _.template('An example template'),
+    events: {
+      'dblclick label': 'edit',
+      'keypress .edit': 'updateOnEnter',
+      'blur .edit': 'close'
     },
-    validate (attributes) {
-      if (attributes.title === undefined) return 'Remember to set a title for your todo.'
+    initialize (options) {
+      this.options = options || {}
     },
-    initialize () {
-      console.log('This model has been initialized.')
-      this.on('invalid', (model, error) => {
-        console.log(error)
-      })
+    render () {
+      this.$el.html(this.todoTpl(this.model.attributes))
+      this.input = this.$('.edit')
+      return this
+    },
+    edit () {
+
+    },
+    close () {
+
+    },
+    updateOnEnter () {
+
     }
   })
-let myTodo = new Todo()
-myTodo.set('completed', true, {validate: true})
-console.log('completed: ' + myTodo.get('completed'))
+let todoView = new TodoView()
+console.log(todoView.el)
+let TodosView = Backbone.View.extend({
+  tagname: 'ul',
+  className: 'container',
+  id: 'todos'
+})
+let todosView = new TodosView()
+console.log(todosView.el)
 </script>
 </body>
 </html>
