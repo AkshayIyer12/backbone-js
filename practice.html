@@ -10,20 +10,22 @@
 <script src="http://backbonejs.org/backbone-min.js"></script>
 <script>
 // Your code goes here
-  let Todo = Backbone.Model.extend({
-    defaults: {
-      title: '',
-      completed: false
-    }
-  })
-let TodoCollection = Backbone.Collection.extend({
-  model: Todo
-})
-let TodosCollect = new TodoCollection()
-TodosCollect.on('change:title', model => console.log('Changed my mind! I should' + model.get('title')))
-TodosCollect.add({title: 'go to Jamaica', completed: false, id: 3})
-let myTodo = TodosCollect.get(3)
-myTodo.set('title', ' go fishing')
+  let todoCounter = {
+    counterA: 0,
+    counterB: 0
+  }
+_.extend(todoCounter, Backbone.Events)
+let incrA = () => {
+  todoCounter.counterA += 1
+  todoCounter.trigger('event')
+}
+let incrB = () => {
+  todoCounter.counterB += 1
+}
+todoCounter.once('event', incrA)
+todoCounter.once('event', incrB)
+todoCounter.trigger('event')
+console.log(todoCounter.counterA === 1)
 </script>
 </body>
 </html>
