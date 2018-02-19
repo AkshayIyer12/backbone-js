@@ -19,10 +19,18 @@
 let TodoCollection = Backbone.Collection.extend({
   model: Todo
 })
-let myTodo = new Todo({title: 'Read the whole book', id: 2})
-let todos = new TodoCollection(myTodo)
-let todo2 = todos.get(2)
-console.log(todo2)
+let TodosCollect = new TodoCollection()
+TodosCollect.on('add', todo => console.log('I should ' + todo.get('title') + '. Have I done it before? ' + (todo.get('completed') ? 'Yeah!' : 'No.')))
+TodosCollect.add(['go to Jamaica', 'go to China', 'go to India'].map((v, i) => {
+  let comp = false
+  if (i === 2) {
+   comp = true
+  }
+  return {
+    title: v,
+    completed: comp
+  }
+}))
 </script>
 </body>
 </html>
