@@ -10,41 +10,22 @@
 <script src="http://backbonejs.org/backbone-min.js"></script>
 <script>
 // Your code goes here
- let TodoView = Backbone.View.extend({
-    tagname: 'li',
-    todoTpl: _.template('An example template'),
-    events: {
-      'dblclick label': 'edit',
-      'keypress .edit': 'updateOnEnter',
-      'blur .edit': 'close'
-    },
-    initialize (options) {
-      this.options = options || {}
-    },
-    render () {
-      this.$el.html(this.todoTpl(this.model.attributes))
-      this.input = this.$('.edit')
-      return this
-    },
-    edit () {
-
-    },
-    close () {
-
-    },
-    updateOnEnter () {
-
+  let Todo = Backbone.Model.extend({
+    defaults: {
+      title: '',
+      completed: false
     }
   })
-let todoView = new TodoView()
-console.log(todoView.el)
-let TodosView = Backbone.View.extend({
-  tagname: 'ul',
-  className: 'container',
-  id: 'todos'
+let TodoCollection = Backbone.Collection.extend({
+  model: Todo
 })
-let todosView = new TodosView()
-console.log(todosView.el)
+let [a, b, c] = ['Go to Jamaica', 'Go to China', 'Go to Disneyland'].map(v => new Todo({title: v}))
+let todos = new TodoCollection([a, b])
+console.log('Collection Size', todos.length)
+todos.add(c)
+console.log('Collection Size', todos.length)
+todos.remove([a, b])
+console.log('Collection Size', todos.length)
 </script>
 </body>
 </html>
