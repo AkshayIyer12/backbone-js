@@ -64,7 +64,11 @@ let App = Backbone.View.extend({
   },
   deleteEntry () {
     $('input[type="checkbox"]').each(function (e) {
-      if ($(this).is(':checked') && e !== 0) $(this)[0].parentNode.parentNode.remove()
+      if ($(this).is(':checked') && e !== 0) {
+        let parent = $(this)[0].parentNode.parentNode
+        libList.remove({id: parent.id})
+        parent.remove()
+      }
     })
   },
   selectAllCheckbox () {
