@@ -63,15 +63,15 @@ let App = Backbone.View.extend({
       </tr>`)
   },
   deleteEntry () {
-    $('input[type="checkbox"]').each(function () {
-      if ($(this).is(':checked')) {
-        $(this)[0].parentNode.parentNode.remove()
-      }
+    $('input[type="checkbox"]').each(function (e) {
+      if ($(this).is(':checked') && e !== 0) $(this)[0].parentNode.parentNode.remove()
     })
   },
   selectAllCheckbox () {
     $('#selectall').change(function () {
-      $('input:checkbox').prop('checked', $(this).prop('checked'))
+      let val = $(this).prop('checked')
+      $(this)[0].nextSibling.nodeValue = val ? 'UnSelect All' : 'Select All'
+      $('input:checkbox').prop('checked', val)
     })
   }
 })
