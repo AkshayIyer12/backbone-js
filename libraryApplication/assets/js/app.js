@@ -25,11 +25,16 @@ let App = Backbone.View.extend({
     this.author = this.$('#author')
     this.id = ''
     this.render()
+    let arr = [['Account Book', 'Manoj', 123], ['Monopoly Book', 'Anil', 223], ['Uno Book', 'Mahesh', 332], ['JavaScript Book', 'Paul', 345]]
+    arr.map(v => this.composeCollection(v))
   },
   valueEntered () {
     this.id = uuidv4()
-    let modelArray = [this.title.val(), this.author.val(), this.id].map(a => a)
-    let val = compose(compose(this.createModel, this.addToCollection), this.display)(modelArray)
+    let modelArray = [this.title.val(), this.author.val(), this.id]
+    let val = this.composeCollection(modelArray)
+  },
+  composeCollection (model) {
+    return compose(compose(this.createModel, this.addToCollection), this.display)(model)
   },
   createModel ([title, author, id]) {
     return new LibraryStore({
