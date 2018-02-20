@@ -17,7 +17,8 @@ let App = Backbone.View.extend({
   el: $('#app'),
   events: {
     'click #submit': 'valueEntered',
-    'click #delete': 'deleteEntry'
+    'click #delete': 'deleteEntry',
+    'click #selectall': 'selectAllCheckbox'
   },
   initialize () {
     this.title = this.$('#title')
@@ -45,7 +46,7 @@ let App = Backbone.View.extend({
     <table>
       <thead>
         <tr>
-          <td>Select all<input type="checkbox" id="selectall"/></td>
+          <td><input type="checkbox" id="selectall"/>Check all</td>
           <td>Title</td>
           <td>Author</td>
         </tr>
@@ -66,6 +67,11 @@ let App = Backbone.View.extend({
       if ($(this).is(':checked')) {
         $(this)[0].parentNode.parentNode.remove()
       }
+    })
+  },
+  selectAllCheckbox () {
+    $('#selectall').change(function () {
+      $('input:checkbox').prop('checked', $(this).prop('checked'))
     })
   }
 })
