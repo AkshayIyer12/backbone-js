@@ -28,7 +28,6 @@ let App = Backbone.View.extend({
     this.id = uuidv4()
     let modelArray = [this.title.val(), this.author.val(), this.id].map(a => a)
     let val = compose(compose(this.createModel, this.addToCollection), this.display)(modelArray)
-    console.log(val)
   },
   createModel ([title, author, id]) {
     return new LibraryStore({
@@ -41,10 +40,24 @@ let App = Backbone.View.extend({
     return libList.add(obj).attributes
   },
   render () {
-    this.$('#display').html(`<h3>Hello World</h3>`)
+    this.$('#display').html(`
+    <table id="tid">
+      <thead>
+        <tr>
+          <td>Title</td>
+          <td>Author</td>
+        </tr>
+      </thead>
+    </table>`)
   },
-  display ({title, author}) {
-    return this.$('#display').append(`<h4>${title} | ${author}</h4>`)
+  display ({title, author, id}) {
+    return this.$(`#tid`).append(`
+    <tbody>
+      <tr id="${id}">
+        <td>${title}</td>
+        <td>${author}</td>
+      </tr>
+    </tbody>`)
   }
 })
 let appView = new App()
