@@ -16,7 +16,8 @@ let libList = new LibraryList()
 let App = Backbone.View.extend({
   el: $('#app'),
   events: {
-    'click #submit': 'valueEntered'
+    'click #submit': 'valueEntered',
+    'click #delete': 'deleteEntry'
   },
   initialize () {
     this.title = this.$('#title')
@@ -40,24 +41,32 @@ let App = Backbone.View.extend({
     return libList.add(obj).attributes
   },
   render () {
-    this.$('#display').html(`
-    <table id="tid">
+    this.$('#display').append(`
+    <table>
       <thead>
         <tr>
+          <td>Select all<input type="checkbox" id="selectall"/></td>
           <td>Title</td>
           <td>Author</td>
         </tr>
       </thead>
+      <tbody></tbody>
     </table>`)
   },
   display ({title, author, id}) {
-    return this.$(`#tid`).append(`
-    <tbody>
+    return this.$('tbody').append(`
       <tr id="${id}">
+        <td><input type="checkbox"/></td>
         <td>${title}</td>
         <td>${author}</td>
-      </tr>
-    </tbody>`)
+      </tr>`)
+  },
+  deleteEntry () {
+    $('input[type="checkbox"]').each(function () {
+      if ($(this).is(':checked')) {
+        $(this)[0].parentNode.parentNode.remove()
+      }
+    })
   }
 })
 let appView = new App()
