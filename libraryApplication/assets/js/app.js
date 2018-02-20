@@ -16,7 +16,7 @@ let libList = new LibraryList()
 let App = Backbone.View.extend({
   el: $('#app'),
   events: {
-    'click #submit': 'valueEntered',
+    'click #submitBook': 'valueEntered',
     'click #delete': 'deleteEntry',
     'click #selectall': 'selectAllCheckbox'
   },
@@ -31,7 +31,7 @@ let App = Backbone.View.extend({
   valueEntered () {
     this.id = uuidv4()
     let modelArray = [this.title.val(), this.author.val(), this.id]
-    let val = this.composeCollection(modelArray)
+    this.composeCollection(modelArray)
   },
   composeCollection (model) {
     return compose(compose(this.createModel, this.addToCollection), this.display)(model)
