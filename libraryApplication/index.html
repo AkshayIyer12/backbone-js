@@ -6,11 +6,68 @@
     <script src="http://wzrd.in/standalone/uuid%2Fv4@latest"></script>
     <script src="assets/js/lib/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+      table {
+        width: 34%;
+        border-spacing: 15px;
+      }
+      thead, tbody, tr {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      thead, tbody {
+        padding: 15px;
+      }
+      thead {
+        text-align: left;
+        color: white;
+        background-color: black;
+      }
+      tbody #t01 {
+        width: 100%;
+        background-color: #f1f1c1;
+      }
+      tbody#t01 tr:nth-child(even) {
+        background-color: #eee;
+      }
+      tbody#t01 tr:nth-child(odd) {
+        background-color: #fff;
+      }
+      #buttons {
+        display: flex;
+        justify-content: center;
+      }
+      #delete, #add, #edit {
+        margin: 20px 5px;;
+      }
+      #display {
+        display: flex;
+        justify-content: center;
+      }
+      td:nth-child(1) {
+        display: flex;
+        justify-content: center;
+      }
+      #selectalltd {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+      #titlehead {
+        width: 42%;
+      }
+      #authorhead {
+          width: 46%;
+      }
+    </style>
   </head>
   <body>
     <div id="app" class="container">
-      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Book</button>
-      <button type="button" class="btn btn-info btn-lg" id="delete">Delete</button>
+      <div id="buttons">
+        <button type="button" class="btn btn-info btn-lg addEdit" id="add" data-toggle="modal" data-target="#myModal">Add Book</button>
+        <button type="button" class="btn btn-info btn-lg" id="delete">Delete</button>
+        <button type="button" class="btn btn-info btn-lg addEdit" id="edit" data-toggle="modal" data-target="#myModal">Edit Book</button>
+      </div>
       <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -19,13 +76,13 @@
               <h4 class="modal-title">Enter Book Details</h4>
             </div>
             <div class="modal-body">
-               <form>
-                 <section id="input">
-                   <input type="text" id="title" placeholder="title">
-                   <input type="text" id="author" placeholder="author">
-                   <button id="submitBook" data-dismiss="modal">Add</button>
-                 </section>
-               </form>
+              <form>
+                <section id="input">
+                  <input type="text" id="title" placeholder="title" />
+                  <input type="text" id="author" placeholder="author" />
+                  <button id="submitBook" data-dismiss="modal">Add</button>
+                </section>
+              </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -34,8 +91,8 @@
         </div>
       </div>
       <section id="display"></section>
+      <script src="assets/js/lib/underscore-min.js"></script>
     </div>
-   <script src="assets/js/lib/underscore-min.js"></script>
     <script src="assets/js/lib/backbone.js"></script>
     <script src="assets/js/lib/backbone.localStorage.min.js"></script>
     <script src="assets/js/app.js"></script>
