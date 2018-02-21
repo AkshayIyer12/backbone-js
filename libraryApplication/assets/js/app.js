@@ -1,4 +1,9 @@
 const compose = (f, g) => x => g(f(x))
+const capitalizeHead = a => {
+    let val = a.split('')
+    val[0] = val[0].toUpperCase()
+    return val.join('')
+  }
 let LibraryStore = Backbone.Model.extend({
   defaults () {
     return {
@@ -16,16 +21,19 @@ let libList = new LibraryList()
 let App = Backbone.View.extend({
   el: $('#app'),
   events: {
-    'click #submitBook': 'valueEntered',
+    'click #addBook': 'valueEntered',
     'click #delete': 'deleteEntry',
-    'click #selectall': 'selectAllCheckbox'
+    'click #selectall': 'selectAllCheckbox',
+    'click #edit': 'editEntry',
+    'click #editBook': 'updateEntry',
+    'click .addEdit': 'setupForm'
   },
   initialize () {
     this.title = this.$('#title')
     this.author = this.$('#author')
     this.id = ''
     this.render()
-    let arr = [['Account Book', 'Manoj', 123], ['Monopoly Book', 'Anil', 223], ['Uno Book', 'Mahesh', 332], ['JavaScript Book', 'Paul', 345]]
+    let arr = [['Account Book Solution', 'Manoj Mangal Pandey', 123], ['Monopoly Book Tactical', 'Anil Dhirubai Ambani ', 223], ['Uno Book Guide', 'Mahesh Tripathi', 332], ['JavaScript Allonge', 'Paul Braithwaite', 345]]
     arr.map(v => this.composeCollection(v))
   },
   valueEntered () {
@@ -51,18 +59,18 @@ let App = Backbone.View.extend({
     <table>
       <thead>
         <tr>
-          <td><input type="checkbox" id="selectall"/>Check all</td>
-          <td>Title</td>
-          <td>Author</td>
+          <th id="selectalltd"><input type="checkbox" id="selectall"/></td>
+          <th id="titlehead">Title</th>
+          <th id="authorhead""">Author</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="t01"></tbody>
     </table>`)
   },
   display ({title, author, id}) {
     return this.$('tbody').append(`
       <tr id="${id}">
-        <td><input type="checkbox"/></td>
+        <td class="checklist"><input type="checkbox"/></td>
         <td>${title}</td>
         <td>${author}</td>
       </tr>`)
@@ -79,9 +87,40 @@ let App = Backbone.View.extend({
   selectAllCheckbox () {
     $('#selectall').change(function () {
       let val = $(this).prop('checked')
-      $(this)[0].nextSibling.nodeValue = val ? 'UnSelect All' : 'Select All'
       $('input:checkbox').prop('checked', val)
     })
+  },
+  editEntry () {
+    let flag = 0
+    let self = this.$el
+    self.find('input[type="checkbox"]').each(function (e) {
+      if (this.checked && e !== 0 && flag === 0) {
+        flag += 1
+        let id = this.parentNode.parentNode.id
+        let {title, author} = libList.get(id).attributes
+        let titleElem = self.find('#title')[0]
+        titleElem.setAttribute('value', title)
+        let authorElem = self.find('#author')[0]
+        authorElem.setAttribute('value', author)
+      }
+    })
+  },
+  setupForm (e) {
+    let {id} = e.currentTarget
+    this.setAttrAndText(id)
+  },
+  setAttrAndText (id) {
+    let node = this.$el.find('#input')[0].children
+    let submitNode = node[2]
+    submitNode.setAttribute('id', `${id}Book`)
+    submitNode.innerHTML = `${capitalizeHead(id)} Book`
+    if (id === 'add') {
+      [...node].map((a, i) => {
+        if (i !== 2) {
+          a.removeAttribute('value')
+        }
+      })
+    }
   }
 })
 let appView = new App()
