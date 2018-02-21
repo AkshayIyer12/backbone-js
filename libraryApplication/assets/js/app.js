@@ -24,9 +24,9 @@ let App = Backbone.View.extend({
     'click #addBook': 'valueEntered',
     'click #delete': 'deleteEntry',
     'click #selectall': 'selectAllCheckbox',
+    'click .addEdit': 'setupForm',
     'click #edit': 'editEntry',
-    'click #editBook': 'updateEntry',
-    'click .addEdit': 'setupForm'
+    'click #editBook': 'updateEntry'
   },
   initialize () {
     this.title = this.$('#title')
@@ -61,7 +61,7 @@ let App = Backbone.View.extend({
         <tr>
           <th id="selectalltd"><input type="checkbox" id="selectall"/></td>
           <th id="titlehead">Title</th>
-          <th id="authorhead""">Author</th>
+          <th id="authorhead">Author</th>
         </tr>
       </thead>
       <tbody id="t01"></tbody>
@@ -96,12 +96,16 @@ let App = Backbone.View.extend({
     self.find('input[type="checkbox"]').each(function (e) {
       if (this.checked && e !== 0 && flag === 0) {
         flag += 1
-        let id = this.parentNode.parentNode.id
+        let {id} = this.parentNode.parentNode
+        self.find('#input')[0].parentElement.setAttribute('class', id)
         let {title, author} = libList.get(id).attributes
-        let titleElem = self.find('#title')[0]
-        titleElem.setAttribute('value', title)
-        let authorElem = self.find('#author')[0]
-        authorElem.setAttribute('value', author)
+        let obj = {
+          '#title': title,
+          '#author': author
+        }
+        let arr = ['#title', '#author'].map(a => {
+          self.find(a)[0].setAttribute('value', obj[a])
+        })
       }
     })
   },
@@ -110,17 +114,27 @@ let App = Backbone.View.extend({
     this.setAttrAndText(id)
   },
   setAttrAndText (id) {
-    let node = this.$el.find('#input')[0].children
-    let submitNode = node[2]
-    submitNode.setAttribute('id', `${id}Book`)
-    submitNode.innerHTML = `${capitalizeHead(id)} Book`
-    if (id === 'add') {
-      [...node].map((a, i) => {
-        if (i !== 2) {
-          a.removeAttribute('value')
-        }
-      })
-    }
+    let self = this.$el
+    let node = self.find('#input')[0].children
+    let arr = [...node]
+    self.find('form').trigger('reset')
+    arr.map((a, i) => {
+      if (i === 2) {
+        a.setAttribute('id', `${id}Book`)
+        a.innerHTML = `${capitalizeHead(id)} Book`
+      }
+    })
+  },
+  updateEntry () {
+    let self = this.$el
+    let [title, author] = [this.title.val(), this.author.val()]
+    let id = self.find('#input')[0].parentElement.className
+    let model = libList.get(id)
+    model.set({title: title, author: author})
+    libList.set({model}, {remove: false})
+    let arr = [...self.find(`#${id}`)[0].children]
+    let num = arr.filter((a, i) => i !== 0 ? a : null).map((a, i) => (i === 0) ? `${a.innerHTML = title}` : `${a.innerHTML = author}`)
+    self.find('#title')[0].removeAttribute('value')
   }
 })
 let appView = new App()
