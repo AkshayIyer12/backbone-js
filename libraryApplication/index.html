@@ -57,16 +57,22 @@
         width: 42%;
       }
       #authorhead {
-          width: 46%;
+        width: 46%;
+      }
+      #popup {
+        text-align: center;
+        padding: 20px;
+        color: red;
       }
     </style>
   </head>
   <body>
     <div id="app" class="container">
+      <div id="popup"></div>
       <div id="buttons">
         <button type="button" class="btn btn-info btn-lg addEdit" id="add" data-toggle="modal" data-target="#myModal">Add Book</button>
         <button type="button" class="btn btn-info btn-lg" id="delete">Delete</button>
-        <button type="button" class="btn btn-info btn-lg addEdit" id="edit" data-toggle="modal" data-target="#myModal">Edit Book</button>
+        <button type="button" class="btn btn-info btn-lg addEdit" id="edit" data-toggle="modal">Edit Book</button>
       </div>
       <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
