@@ -1,9 +1,10 @@
 const compose = (f, g) => x => g(f(x))
 const capitalizeHead = a => {
-    let val = a.split('')
-    val[0] = val[0].toUpperCase()
-    return val.join('')
-  }
+  let val = a.split('')
+  val[0] = val[0].toUpperCase()
+  return val.join('')
+}
+
 let LibraryStore = Backbone.Model.extend({
   defaults () {
     return {
@@ -21,12 +22,12 @@ let libList = new LibraryList()
 let App = Backbone.View.extend({
   el: $('#app'),
   events: {
-    'click #addBook': 'valueEntered',
-    'click #delete': 'deleteEntry',
+    'click #addBook': 'addBook',
+    'click #delete': 'deleteBook',
     'click #selectall': 'selectAllCheckbox',
-    'click .addEdit': 'setupForm',
-    'click #edit': 'editEntry',
-    'click #editBook': 'updateEntry'
+    'click .addEdit': 'resetForm',
+    'click #edit': 'showModal',
+    'click #editBook': 'updateBook'
   },
   initialize () {
     this.title = this.$el.find('#title')[0]
@@ -36,13 +37,13 @@ let App = Backbone.View.extend({
     let arr = [['Account Book Solution', 'Manoj Mangal Pandey', 123], ['Monopoly Book Tactical', 'Anil Dhirubai Ambani ', 223], ['Uno Book Guide', 'Mahesh Tripathi', 332], ['JavaScript Allonge', 'Paul Braithwaite', 345]]
     arr.map(v => this.composeCollection(v))
   },
-  valueEntered () {
+  addBook () {
     this.id = uuidv4()
-    let modelArray = [this.title.val(), this.author.val(), this.id]
+    let modelArray = [this.title.value, this.author.value, this.id]
     this.composeCollection(modelArray)
   },
   composeCollection (model) {
-    return compose(compose(this.createModel, this.addToCollection), this.display)(model)
+    return compose(compose(this.createModel, this.addToCollection), this.displayBook)(model)
   },
   createModel ([title, author, id]) {
     return new LibraryStore({
@@ -55,7 +56,7 @@ let App = Backbone.View.extend({
     return libList.add(obj).attributes
   },
   render () {
-    this.$('#display').append(`
+    this.$el.find('#display').append(`
     <table>
       <thead>
         <tr>
@@ -67,65 +68,72 @@ let App = Backbone.View.extend({
       <tbody id="t01"></tbody>
     </table>`)
   },
-  display ({title, author, id}) {
+  displayBook ({author, title, id}) {
     return this.$('tbody').append(`
       <tr id="${id}">
-        <td class="checklist"><input type="checkbox"/></td>
+        <td class="checklist"><input type="checkbox" class="tableCheck"/></td>
         <td>${title}</td>
         <td>${author}</td>
       </tr>`)
   },
-  deleteEntry () {
-    $('input[type="checkbox"]').each(function (e) {
-      if ($(this).is(':checked') && e !== 0) {
-        let parent = $(this)[0].parentNode.parentNode
+  deleteBook () {
+    this.$el.find('input[type="checkbox"]').each(function (e) {
+      if (this.checked && e !== 0) {
+        let parent = this.parentNode.parentNode
         libList.remove({id: parent.id})
         parent.remove()
       }
     })
   },
   selectAllCheckbox () {
-    $('#selectall').change(function () {
-      let val = $(this).prop('checked')
-      $('input:checkbox').prop('checked', val)
-    })
-  },
-  editEntry () {
-    let flag = 0
     let self = this.$el
-    self.find('input[type="checkbox"]').each(function (e) {
-      if (this.checked && e !== 0 && flag === 0) {
-        flag += 1
-        let {id} = this.parentNode.parentNode
-        self.find('#input')[0].parentElement.setAttribute('class', id)
-        let {title, author} = libList.get(id).attributes
-        let obj = {
-          '#title': title,
-          '#author': author
-        }
-        let arr = ['#title', '#author'].map(a => {
-          self.find(a)[0].setAttribute('value', obj[a])
-        })
-      }
+    self.find('#selectall').change(function () {
+      let val = this.checked
+      self.find('input:checkbox').prop('checked', val)
     })
   },
-  setupForm (e) {
-    let {id} = e.currentTarget
-    this.setAttrAndText(id)
+  showModal () {
+    let self = this.$el
+    let checkedItem = self.find('.tableCheck:checked')
+    let popUp = self.find('#popup')[0]
+    let length = checkedItem.length
+    this.modalAttribute(length)
+    if (length > 1) this.showCheckBoxError(popUp, length)
+    else (checkedItem.length === 1) ? this.fillFormData(checkedItem[0].parentElement.parentElement) : this.showCheckBoxError(popUp, length)
   },
-  setAttrAndText (id) {
+  showCheckBoxError (popUp, length) {
+    popUp.innerHTML = (length > 1) ? `<h3>You cannot select more than one book
+for editing</h3>` : `<h3>No book has been selected for edit`
+    setTimeout(() => popUp.innerHTML = '', 1200)
+  }
+  ,
+  modalAttribute (length) {
+    let modalSet = this.$el.find('#edit')[0]
+    return (length === 1) ? modalSet.setAttribute('data-target', '#myModal') : modalSet.setAttribute('data-target', '')
+  },
+  fillFormData ({id}) {
+    let self = this.$el
+    self.find('#edit')[0].setAttribute('data-target', '#myModal')
+    self.find('#input')[0].parentElement.setAttribute('class', id)
+    let {title, author} = libList.get(id).attributes
+    let obj = {
+      '#title': title,
+      '#author': author
+    }
+    let arr = ['#title', '#author'].map(a => self.find(a)[0].setAttribute('value', obj[a]))
+  }
+  ,
+  resetForm (e) {
+    let {id} = e.currentTarget
     let self = this.$el
     let node = self.find('#input')[0].children
-    let arr = [...node]
     self.find('form').trigger('reset')
-    arr.map((a, i) => {
-      if (i === 2) {
+    let arr = [...node].filter((v, i) => i === 2 ? v : null).map(a => {
         a.setAttribute('id', `${id}Book`)
         a.innerHTML = `${capitalizeHead(id)} Book`
-      }
     })
   },
-  updateEntry () {
+  updateBook () {
     let self = this.$el
     let [title, author] = [this.title.value, this.author.value]
     let id = self.find('#input')[0].parentElement.className
