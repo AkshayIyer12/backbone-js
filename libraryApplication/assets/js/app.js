@@ -29,8 +29,8 @@ let App = Backbone.View.extend({
     'click #editBook': 'updateEntry'
   },
   initialize () {
-    this.title = this.$('#title')
-    this.author = this.$('#author')
+    this.title = this.$el.find('#title')[0]
+    this.author = this.$el.find('#author')[0]
     this.id = ''
     this.render()
     let arr = [['Account Book Solution', 'Manoj Mangal Pandey', 123], ['Monopoly Book Tactical', 'Anil Dhirubai Ambani ', 223], ['Uno Book Guide', 'Mahesh Tripathi', 332], ['JavaScript Allonge', 'Paul Braithwaite', 345]]
@@ -127,7 +127,7 @@ let App = Backbone.View.extend({
   },
   updateEntry () {
     let self = this.$el
-    let [title, author] = [this.title.val(), this.author.val()]
+    let [title, author] = [this.title.value, this.author.value]
     let id = self.find('#input')[0].parentElement.className
     let model = libList.get(id)
     model.set({title: title, author: author})
