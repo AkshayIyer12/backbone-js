@@ -34,25 +34,26 @@ let App = Backbone.View.extend({
     this.id = ''
     this.render()
     let arr = [['Account Book Solution', 'Manoj Mangal Pandey', 123], ['Monopoly Book Tactical', 'Anil Dhirubai Ambani ', 223], ['Uno Book Guide', 'Mahesh Tripathi', 332], ['JavaScript Allonge', 'Paul Braithwaite', 345]]
-    arr.map(v => this.composeCollection(v))
+    arr.map(v => this.createAndDisplayModel(v))
   },
   addBook () {
     this.id = uuidv4()
     let modelArray = [this.title.value, this.author.value, this.id]
-    this.composeCollection(modelArray)
+    this.createAndDisplayModel(modelArray)
   },
-  composeCollection (model) {
-    return this.displayBook(this.addToCollection(this.createModel(model)))
-  },
-  createModel ([title, author, id]) {
-    return new LibraryStore({
-      title: title,
-      author: author,
-      id: id
+  createAndDisplayModel (arr) {
+    let obj = new LibraryStore({
+      title: arr[0],
+      author: arr[1],
+      id: arr[2]
     })
-  },
-  addToCollection (obj) {
-    return libList.add(obj).attributes
+    let {title, author, id} = libList.add(obj).attributes
+    this.$el.find('tbody').append(`
+    <tr id="${id}">
+      <td class="checklist"><input type="checkbox" class="tableCheck"/></td>
+      <td>${title}</td>
+      <td>${author}</td>
+    </tr>`)
   },
   render () {
     this.$el.find('#display').append(`
@@ -66,14 +67,6 @@ let App = Backbone.View.extend({
       </thead>
       <tbody id="t01"></tbody>
     </table>`)
-  },
-  displayBook ({title, author, id}) {
-    this.$el.find('tbody').append(`
-      <tr id="${id}">
-        <td class="checklist"><input type="checkbox" class="tableCheck"/></td>
-        <td>${title}</td>
-        <td>${author}</td>
-      </tr>`)
   },
   deleteBook () {
     this.$el.find('input[type="checkbox"]').each(function (e) {
