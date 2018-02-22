@@ -1,4 +1,3 @@
-const compose = (f, g) => x => g(f(x))
 const capitalizeHead = a => {
   let val = a.split('')
   val[0] = val[0].toUpperCase()
@@ -43,7 +42,7 @@ let App = Backbone.View.extend({
     this.composeCollection(modelArray)
   },
   composeCollection (model) {
-    return compose(compose(this.createModel, this.addToCollection), this.displayBook)(model)
+    return this.displayBook(this.addToCollection(this.createModel(model)))
   },
   createModel ([title, author, id]) {
     return new LibraryStore({
@@ -68,8 +67,8 @@ let App = Backbone.View.extend({
       <tbody id="t01"></tbody>
     </table>`)
   },
-  displayBook ({author, title, id}) {
-    return this.$('tbody').append(`
+  displayBook ({title, author, id}) {
+    this.$el.find('tbody').append(`
       <tr id="${id}">
         <td class="checklist"><input type="checkbox" class="tableCheck"/></td>
         <td>${title}</td>
