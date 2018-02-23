@@ -1,0 +1,10 @@
+<table>
+  <thead>
+    <tr>
+      <th id="selectalltd"><input type="checkbox" id="selectall"/></td>
+      <th id="titlehead">Title</th>
+      <th id="authorhead">Author</th>
+    </tr>
+  </thead>
+  <tbody id="t01"></tbody>
+</table>

@@ -1,0 +1,7 @@
+{#book}
+  <tr id={#id}{.}{/id}>
+    <td class="checklist"><input type="checkbox" class="tableCheck"/></td>
+    <td>{#title}{.}{/title}</td>
+    <td>{#author}{.}{/author}</td>
+  </tr>
+{/book}
