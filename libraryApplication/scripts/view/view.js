@@ -3,10 +3,12 @@ define(function (require) {
   const Backbone = require('backbone')
   const Bootstrap = require('bootstrap')
   const uuidv4 = require('uuid-v4')
+  const _ = require('underscore')
   const capitalizeHead = a => {
-    let val = a.split('')
-    val[0] = val[0].toUpperCase()
-    return val.join('')
+    let arr = a.split('')
+    let head = _.first(arr, [1]).map(a => a.toUpperCase())
+    let rem = _.rest(arr, 1)
+    return [...head, ...rem].join('')
   }
   let App = Backbone.View.extend({
   el: $('#app'),
@@ -26,27 +28,28 @@ define(function (require) {
     this.LibraryStore = Model
     this.libList = new Collection()
     let arr = [['Account Book Solution', 'Manoj Mangal Pandey', 123], ['Monopoly Book Tactical', 'Anil Dhirubai Ambani ', 223], ['Uno Book Guide', 'Mahesh Tripathi', 332], ['JavaScript Allonge', 'Paul Braithwaite', 345]]
-    arr.map(v => this.createAndDisplayModel(v))
+    _.map(arr, v => this.createAndDisplayModel(v))
   },
-  addBook () {
-    this.id = uuidv4()
-    let modelArray = [this.title.value, this.author.value, this.id]
-    this.createAndDisplayModel(modelArray)
-  },
-  createAndDisplayModel (arr) {
-    let obj = new this.LibraryStore({
-      title: arr[0],
-      author: arr[1],
-      id: arr[2]
-    })
-    let {title, author, id} = this.libList.add(obj).attributes
-    this.$el.find('tbody').append(`
-    <tr id="${id}">
-      <td class="checklist"><input type="checkbox" class="tableCheck"/></td>
-      <td>${title}</td>
-      <td>${author}</td>
-    </tr>`)
-  },
+    addBook () {
+      this.$el.find('form').trigger('reset')
+      this.id = uuidv4()
+      let modelArray = [this.title.value, this.author.value, this.id]
+      this.createAndDisplayModel(modelArray)
+    },
+    createAndDisplayModel (arr) {
+      let obj = new this.LibraryStore({
+        title: arr[0],
+        author: arr[1],
+        id: arr[2]
+      })
+      let {title, author, id} = this.libList.add(obj).attributes
+      this.$el.find('tbody').append(`
+      <tr id="${id}">
+        <td class="checklist"><input type="checkbox" class="tableCheck"/></td>
+        <td>${title}</td>
+        <td>${author}</td>
+      </tr>`)
+   },
   render () {
     this.$el.find('#display').append(`
     <table>
@@ -62,7 +65,7 @@ define(function (require) {
   },
     deleteBook () {
       let self = this
-    this.$el.find('input[type="checkbox"]').each(function (e) {
+      this.$el.find('input[type="checkbox"]').each(function (e) {
       if (this.checked && e !== 0) {
         let parent = this.parentNode.parentNode
         self.libList.remove({id: parent.id})
@@ -128,6 +131,5 @@ for editing</h3>` : `<h3>No book has been selected for edit`
     self.find('#title')[0].removeAttribute('value')
   }
   })
-  console.log(App)
   return App
 })
