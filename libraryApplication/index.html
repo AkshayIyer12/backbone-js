@@ -66,33 +66,7 @@
   <body>
     <div id="app" class="container">
       <div id="popup"></div>
-      <div id="buttons">
-        <button type="button" class="btn btn-info btn-lg addEdit" id="add" data-toggle="modal" data-target="#myModal">Add Book</button>
-        <button type="button" class="btn btn-info btn-lg" id="delete">Delete</button>
-        <button type="button" class="btn btn-info btn-lg addEdit" id="edit" data-toggle="modal">Update Book</button>
-      </div>
-      <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Enter Book Details</h4>
-            </div>
-            <div class="modal-body">
-              <form>
-                <section id="input">
-                  <input type="text" id="title" placeholder="title" />
-                  <input type="text" id="author" placeholder="author" />
-                  <button id="submitBook" data-dismiss="modal">Add</button>
-                </section>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="buttons"></div>
       <section id="display"></section>
     </div>
     <script data-main="scripts/main" src="node_modules/requirejs/require.js"></script>
