@@ -4,6 +4,7 @@ requirejs.config({
     app: '../app',
     model: '../model',
     view: '../view',
+    templates: '../templates'
   },
   shim: {
     'uuid-v4': {
@@ -21,9 +22,12 @@ requirejs.config({
     },
     'bootstrap': {
       deps: ['jquery']
+    },
+    'dust': {
+      exports: 'dust'
     }
   }
-});
+})
 requirejs(['app/app'], function (App) {
 
-});
+})
