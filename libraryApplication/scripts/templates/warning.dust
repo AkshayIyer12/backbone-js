@@ -1,0 +1,5 @@
+{?len}
+<h3>You cannot select more than one book for edit</h3>
+{:else}
+<h3>No book has been selected for edit</h3>
+{/len}

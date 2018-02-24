@@ -9,6 +9,7 @@ define(function (require) {
   const modalTemplate = require('text!templates/modal.dust')
   const tableTemplate = require('text!templates/table.dust')
   const rowTemplate = require('text!templates/row.dust')
+  const warningTemplate = require('text!templates/warning.dust')
   const capitalizeHead = a => {
     let arr = a.split('')
     let head = _.first(arr, [1]).map(a => a.toUpperCase())
@@ -69,7 +70,6 @@ define(function (require) {
         author: this.author.value,
         id: this.id
       }
-      console.log(obj)
       this.createAndDisplayModel(obj)
       this.$el.find('form').trigger('reset')
     },
@@ -104,16 +104,17 @@ define(function (require) {
       let popUp = self.find('#popup')[0]
       let length = checkedItem.length
       this.modalAttribute(length)
-      if (length > 1) this.showCheckBoxError(popUp, length)
-      else (checkedItem.length === 1) ? this.fillFormData(checkedItem[0].parentElement.parentElement) : this.showCheckBoxError(popUp, length)
+      if (length > 1) this.showCheckBoxError(popUp, true)
+      else (checkedItem.length === 1) ? this.fillFormData(checkedItem[0].parentElement.parentElement) : this.showCheckBoxError(popUp, false)
     },
     showCheckBoxError (popUp, length) {
-      popUp.innerHTML = (length > 1) ? `<h3>You cannot select more than one book
-for editing</h3>` : `<h3>No book has been selected for edit`
-      setTimeout(() => {
-        popUp.innerHTML = ''
-        return popUp
-      }, 1200)
+      dust.renderSource(warningTemplate, {"len": length}, (err, res) => {
+        popUp.innerHTML = res
+        setTimeout(() => {
+          popUp.innerHTML = ''
+          return popUp
+        }, 1200)
+      })
     },
     modalAttribute (length) {
       let modalSet = this.$el.find('#edit')[0]
