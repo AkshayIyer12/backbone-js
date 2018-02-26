@@ -1,0 +1,35 @@
+#buttons {
+  display: flex;
+  justify-content: center;
+}
+#section1 {
+  display: flex;
+  justify-content: center;
+}
+#label {
+  display: flex;
+  justify-content: space-around;
+}
+#modalInput {
+  display: flex;
+  justify-content: space-evenly;
+}
+#delete,
+#add,
+#edit {
+  margin: 20px 5px;
+}
+#popup {
+  text-align: center;
+  padding: 20px;
+  color: red;
+}
+.ui-jqgrid.ui-jqgrid-bootstrap {
+  border: 1px solid #003380;
+}
+.ui-jqgrid.ui-jqgrid-bootstrap .ui-jqgrid-caption {
+  background-color: #e6f0ff;
+}
+.ui-jqgrid.ui-jqgrid-bootstrap .ui-jqgrid-hdiv {
+  background-color: #cce0ff;
+}
