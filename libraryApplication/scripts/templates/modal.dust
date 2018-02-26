@@ -8,13 +8,23 @@
       <div class="modal-body">
         <form>
           <section id="input">
-            <input type="text" id="title" placeholder="title" />
-            <input type="text" id="author" placeholder="author" />
-            <button id="submitBook" data-dismiss="modal">Add</button>
+          <div id="label">
+            <div>
+              <label><strong>Title</strong></label>
+            </div>
+            <div>
+              <label><strong>Author</strong></label>
+            </div>
+          </div>
+          <div id="modalInput">
+            <input class="form-control" type="text" id="title" placeholder="title" />
+            <input class="form-control" type="text" id="author" placeholder="author" />
+          <div>
           </section>
         </form>
       </div>
       <div class="modal-footer">
+        <button id="submitBook" class="btn btn-default" data-dismiss="modal">Add</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
