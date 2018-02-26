@@ -50,11 +50,28 @@ define(function (require) {
     },
     render () {
       let self = this.$el
+      let obj = [{
+          'id': 'add',
+          'class': 'addEdit',
+          'data-toggle': 'modal',
+          'data-target': '#myModal',
+          'value': 'Add Book'
+        },
+        {
+          'id': 'delete',
+          'value': 'Delete Book'
+        },
+        {
+          'id': 'edit',
+          'class': 'addEdit',
+          'data-toggle': 'modal',
+          'value': 'Update Book'
+        }]
       dust.renderSource(modalTemplate, {}, function (err, res) {
         if (err) console.error(err)
         self.find('#buttons').after(res)
       })
-      dust.renderSource(buttonsTemplate, {}, function (err, res) {
+      dust.renderSource(buttonsTemplate, {'button': obj}, function (err, res) {
         if (err) console.error(err)
         self.find('#buttons').append(res)
       })
