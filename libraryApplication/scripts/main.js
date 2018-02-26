@@ -29,6 +29,9 @@ requirejs.config({
     'jqGrid': {
       deps: ['jquery'],
       exports: 'jqGrid'
+    },
+    'less': {
+      exports: 'less'
     }
   }
 })

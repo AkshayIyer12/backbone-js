@@ -9,7 +9,6 @@ define(function (require) {
   const buttonsTemplate = require('text!templates/buttons.dust')
   const modalTemplate = require('text!templates/modal.dust')
   const tableTemplate = require('text!templates/table.dust')
-  const rowTemplate = require('text!templates/row.dust')
   const warningTemplate = require('text!templates/warning.dust')
   const capitalizeHead = a => {
     let arr = a.split('')
@@ -36,8 +35,7 @@ define(function (require) {
       this.LibraryStore = Model
       this.libList = new Collection()
       let arr = [['Account Book Solution', 'Manoj Mangal Pandey', 123], ['Monopoly Book Tactical', 'Anil Dhirubai Ambani ', 223], ['Uno Book Guide', 'Mahesh Tripathi', 332], ['JavaScript Allonge', 'Paul Braithwaite', 345]]
-      let self = this
-      let reducer = _.reduce(arr, function (accum , v) {
+      let reducer = _.reduce(arr, function (accum, v) {
         let obj = {
           Title: v[0],
           Author: v[1],
@@ -46,27 +44,27 @@ define(function (require) {
         accum.push(obj)
         return accum
       }, [])
-     _.map(reducer, v => this.createAndDisplayModel(v))
+      _.map(reducer, v => this.createAndDisplayModel(v))
     },
     render () {
       let self = this.$el
       let obj = [{
-          'id': 'add',
-          'class': 'addEdit',
-          'data-toggle': 'modal',
-          'data-target': '#myModal',
-          'value': 'Add Book'
-        },
-        {
-          'id': 'delete',
-          'value': 'Delete Book'
-        },
-        {
-          'id': 'edit',
-          'class': 'addEdit',
-          'data-toggle': 'modal',
-          'value': 'Update Book'
-        }]
+        'id': 'add',
+        'class': 'addEdit',
+        'data-toggle': 'modal',
+        'data-target': '#myModal',
+        'value': 'Add Book'
+      },
+      {
+        'id': 'delete',
+        'value': 'Delete Book'
+      },
+      {
+        'id': 'edit',
+        'class': 'addEdit',
+        'data-toggle': 'modal',
+        'value': 'Update Book'
+      }]
       dust.renderSource(modalTemplate, {}, function (err, res) {
         if (err) console.error(err)
         self.find('#buttons').after(res)
@@ -132,7 +130,8 @@ define(function (require) {
       else (length === 1) ? this.fillFormData(val) : this.showCheckBoxError(popUp, false)
     },
     showCheckBoxError (popUp, length) {
-      dust.renderSource(warningTemplate, {"len": length}, (err, res) => {
+      dust.renderSource(warningTemplate, {'len': length}, (err, res) => {
+        if (err) console.error(err)
         popUp.innerHTML = res
         setTimeout(() => {
           popUp.innerHTML = ''
