@@ -25,6 +25,10 @@ requirejs.config({
     },
     'dust': {
       exports: 'dust'
+    },
+    'jqGrid': {
+      deps: ['jquery'],
+      exports: 'jqGrid'
     }
   }
 })
