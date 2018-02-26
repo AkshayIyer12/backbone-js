@@ -3,8 +3,8 @@ define(function (require) {
   let LibraryStore = Backbone.Model.extend({
     defaults () {
       return {
-        title: '',
-        author: '',
+        Title: '',
+        Author: '',
         id: 0
       }
     }
